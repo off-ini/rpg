@@ -13,9 +13,10 @@ using namespace sf;
 
 int main(){
     RenderWindow window(VideoMode(SCREEN_W, SCREEN_H), "RPG");
+    Scene scene;
 
     if(Menu::menu(window) == 1){
-        Scene::scene1(window);
+        scene.scene1(window);
     }
 
     return 0;

@@ -10,8 +10,8 @@
 
 #define TILE_SIZE_X 32
 #define TILE_SIZE_Y 32
-#define TILE_WIDTH 16 //2400
-#define TILE_HEIGHT 16 //1600
+#define TILE_WIDTH 75 //2400
+#define TILE_HEIGHT 50 //1600
 
 #define PERSO_WIDTH 48
 #define PERSO_HEIGHT 48

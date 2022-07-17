@@ -13,18 +13,18 @@ using namespace std;
 
 class Batiment : public GameObject {
 private:
-    vector<Piece> pieces;
+    vector<Piece *> pieces;
 
 public:
     Batiment();
 
-    Batiment(vector<Piece> pieces);
+    Batiment(vector<Piece *> pieces);
 
-    vector<Piece> getPieces();
+    vector<Piece *> getPieces();
 
     void addPiece(Piece piece);
 
-    void setPiece(vector<Piece> pieces);
+    void setPiece(vector<Piece *> pieces);
 
 };
 

@@ -11,6 +11,7 @@
 #include "Personnage.h"
 #include <string>
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 
@@ -18,13 +19,16 @@ class Piece : public GameObject {
 private:
     int longueur;
     int largeur;
+    sf::Vector2f position;
     vector<Porte> portes;//Une pièce ne peut avoir au maximum que quatre portes
     vector<Personnage *> personnages;
 
 public:
     Piece();
 
-    Piece(int longeur, int largeur, vector<Porte> portes);
+    Piece(int longueur, int largeur, vector<Porte>& portes);
+    Piece(int longueur, int largeur, sf::Vector2f position);
+    Piece(float x, float y, int longueur, int largeur);
 
     Piece(const Piece &piece);
 
@@ -33,6 +37,8 @@ public:
     void setLongueur(int longueur);
 
     int getLargeur();
+
+    sf::Vector2f getPosition();
 
     void setLargeur(int largeur);
 

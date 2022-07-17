@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD 14)
 find_package(SFML 2.5.1 COMPONENTS system graphics audio network REQUIRED)
 
 add_executable(rpg
-        consoles/Scene.cpp
-        consoles/Scene.h
         modeles/Amulette.cpp
         modeles/Amulette.h
         modeles/Animal.cpp

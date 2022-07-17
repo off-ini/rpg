@@ -6,19 +6,19 @@
 
 Batiment::Batiment() {}
 
-Batiment::Batiment(vector<Piece> pieces) {
+Batiment::Batiment(vector<Piece *> pieces) {
     this->pieces = pieces;
 }
 
 void Batiment::addPiece(Piece piece) {
     //Vérifier que piece n'est pas déjà dans le batiment
-    this->pieces.push_back(piece);
+    this->pieces.push_back(&piece);
 }
 
-vector<Piece> Batiment::getPieces() {
+vector<Piece *> Batiment::getPieces() {
     return this->pieces;
 }
 
-void Batiment::setPiece(vector<Piece> pieces) {
+void Batiment::setPiece(vector<Piece *> pieces) {
     this->pieces = pieces;
 }

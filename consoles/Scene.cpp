@@ -91,10 +91,10 @@ void Scene::creationDecor(int numero, string nom) {
     personnages.push_back(personnage);
 
     //Pieces
-    vector<Piece> pieces;
+    vector<Piece*> pieces;
     Piece piece(10, 10, portes);
     piece.setPersonnages(personnages);
-    pieces.push_back(piece);
+    pieces.push_back(&piece);
 
     this->batiment = new Batiment(pieces);
     pieceCourante = 0;
@@ -108,12 +108,12 @@ void Scene::presentePiece() {
     string presentation;
     presentation = "\n" + this->joueur->getNom() + ", vous entrez dans la piece n°" + to_string(pieceCourante + 1) +
                    "du batiment.";
-    presentation += "\nLongueur x largeur: " + to_string(this->batiment->getPieces()[0].getLongueur()) + "m x " +
-                    to_string(this->batiment->getPieces()[0].getLargeur()) + "m.";
+    presentation += "\nLongueur x largeur: " + to_string(this->batiment->getPieces()[0]->getLongueur()) + "m x " +
+                    to_string(this->batiment->getPieces()[0]->getLargeur()) + "m.";
     presentation += "\nEnnemi présent: \n";
     for (auto piece: this->batiment->getPieces()) {
         int i = 0;
-        for (auto personnage: piece.getPersonnages()) {
+        for (auto personnage: piece->getPersonnages()) {
             presentation += to_string(i + 1) + " - " + personnage->getNom();
         }
     }

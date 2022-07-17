@@ -3,16 +3,30 @@
 //
 
 #include "Piece.h"
+#include <SFML/Graphics.hpp>
 
 Piece::Piece() {
     this->longueur = 9;
     this->largeur = 9;
 }
 
-Piece::Piece(int longueur, int largeur, vector<Porte> portes) {
+Piece::Piece(int longueur, int largeur, vector<Porte>& portes) {
     this->longueur = longueur;
     this->largeur = largeur;
     this->portes = portes;
+}
+
+Piece::Piece(int longueur, int largeur, sf::Vector2f position){
+    this->longueur = longueur;
+    this->largeur = largeur;
+    this->position = position;
+}
+
+Piece::Piece(float x, float y, int longueur, int largeur){
+    this->longueur = longueur * TILE_SIZE_X;
+    this->largeur = largeur * TILE_SIZE_Y;
+    this->position.x = x * TILE_SIZE_X;
+    this->position.y = y * TILE_SIZE_Y;
 }
 
 Piece::Piece(const Piece &piece) {
@@ -43,6 +57,10 @@ int Piece::getLongueur() {
 
 void Piece::setLongueur(int longueur) {
     this->longueur = longueur;
+}
+
+sf::Vector2f Piece::getPosition(){
+    return position;
 }
 
 vector<Porte> Piece::getPortes() {
