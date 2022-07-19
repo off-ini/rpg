@@ -16,6 +16,8 @@ public:
     Religieux(string nom, int niveauSante, int niveauHabilite);
 
     void print();
+
+    string toJson();
 };
 
 

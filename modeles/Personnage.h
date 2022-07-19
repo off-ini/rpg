@@ -14,6 +14,19 @@
 using namespace std;
 
 class Personnage : public Creature {
+private:
+    Clock m_time_anim;
+    Clock m_time_moving;
+    Clock m_time_direction;
+    int m_take_direction = speed;
+    bool m_moving = true;
+
+    int getDir(sf::Vector2f pos, sf::Vector2f cible);
+
+    void moving(TileMap &map);
+
+    void moving_cible(TileMap &map);
+
 protected:
     int niveauHabilite;
     Sac *sac;
@@ -38,20 +51,13 @@ public:
     Personnage &operator=(const Personnage &personnage);
 
     virtual void print();
-    virtual void move(Event& event, TileMap& map);
-    virtual void move(TileMap& map);
 
+    virtual string toJson();
 
-private:
-    Clock m_time_anim;
-    Clock m_time_moving;
-    Clock m_time_direction;
-    int m_take_direction = speed;
-    bool m_moving = true;
+    virtual void move(Event &event, TileMap &map);
 
-    int getDir(sf::Vector2f pos, sf::Vector2f cible);
-    void moving(TileMap& map);
-    void moving_cible(TileMap& map);
+    virtual void move(TileMap &map);
+
 };
 
 

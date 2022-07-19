@@ -31,6 +31,8 @@ public:
 
     void print();
 
+    string toJson();
+
 };
 
 

@@ -7,7 +7,7 @@
 Amulette::Amulette() : Outil(), portee(0), puissance(0) {}
 
 Amulette::Amulette(string libelle, int portee, int puissance) : Outil(libelle), portee(portee),
-                                                                      puissance(puissance) {}
+                                                                puissance(puissance) {}
 
 int Amulette::getPortee() {
     return this->portee;
@@ -29,5 +29,14 @@ void Amulette::print() {
     string ecran;
     ecran = "\t\tAmulette[libelle: " + this->libelle + ", portee: " + to_string(this->portee) + ", puissance: " +
             to_string(this->puissance) + "]";
-    cout << endl << ecran << endl;
+    cout << endl << ecran;
+}
+
+string Amulette::toJson() {
+    string type = &(typeid(*this).name()[1]);
+    string json;
+    json = "{\"type\": \"" + type + "\", \"libelle\": \"" + this->libelle + "\", \"portee\": " +
+           to_string(this->portee) + ", ";
+    json += "\"puissance\": " + to_string(this->puissance) + "}";
+    return json;
 }

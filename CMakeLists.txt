@@ -46,6 +46,6 @@ add_executable(rpg
         windows/Scene.h
         windows/Scene.cpp
         main.cpp
-        )
+        data/Parser.h)
 
 target_link_libraries(rpg PRIVATE sfml-audio sfml-graphics sfml-network sfml-system)

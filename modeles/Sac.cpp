@@ -73,6 +73,23 @@ void Sac::print() {
     for (int i = 0; i < this->outils.size(); i++) {
         cout << "\t";
         this->outils[i]->print();
+        if (i != (this->outils.size() - 1)) {
+            cout << ", ";
+        } else {
+            cout << endl;
+        }
     }
     cout << "\t]" << endl;
+}
+
+string Sac::toJson() {
+    string json;
+    int taille = this->outils.size();
+    for (int i = 0; i < taille; i++) {
+        json += this->outils[i]->toJson();
+        if (i != (taille - 1)) {
+            json += ", ";
+        }
+    }
+    return json;
 }

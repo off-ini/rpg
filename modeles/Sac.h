@@ -35,6 +35,8 @@ public:
     ~Sac();
 
     void print();
+
+    string toJson();
 };
 
 

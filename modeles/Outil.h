@@ -27,6 +27,8 @@ public:
 
     virtual void print();
 
+    virtual string toJson();
+
 };
 
 

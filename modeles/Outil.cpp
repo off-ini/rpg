@@ -21,5 +21,11 @@ void Outil::setLibelle(string libelle) {
 }
 
 void Outil::print() {
-    cout << endl << "\tOutil[libelle: " + libelle + "]" << endl;
+    cout << endl << "\tOutil[libelle: " + libelle + "]";
+}
+
+string Outil::toJson() {
+    string json;
+    json = "{\"libelle\": \"" + libelle + "\"}";
+    return json;
 }
