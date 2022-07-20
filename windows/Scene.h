@@ -8,12 +8,13 @@
 #include "../modeles/Personnage.h"
 #include "../modeles/Batiment.h"
 #include "../modeles/Piece.h"
+#include "Battle.h"
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-#define PERSO_NOMBRE 60
+#define PERSO_NOMBRE 30
 
 const int level[] =
         {
@@ -73,7 +74,7 @@ const int level[] =
 class Scene {
 public:
     Scene();
-    int scene1(sf::RenderWindow& window);
+    int scene1(sf::RenderWindow& window, int choix);
 private:
     View view;
     Batiment batiment;

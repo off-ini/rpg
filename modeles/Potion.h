@@ -19,9 +19,9 @@ public:
 
     Potion(string libelle, int point);
 
-    int getPoint();
+    virtual int getPoint();
 
-    void setPoint(int point);
+    virtual void setPoint(int point);
 
     void print();
 
