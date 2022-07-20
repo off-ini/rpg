@@ -12,7 +12,7 @@ using namespace std;
 
 class Amulette : public Outil {
 
-private:
+protected:
     int portee;
     int puissance;
 

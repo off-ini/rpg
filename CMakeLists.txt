@@ -46,6 +46,6 @@ add_executable(rpg
         windows/Scene.h
         windows/Scene.cpp
         main.cpp
-        data/Parser.h)
+        data/Parser.h modeles/CleTeleporation.cpp modeles/CleTeleporation.h modeles/PotionRegeneration.cpp modeles/PotionRegeneration.h modeles/Feu.cpp modeles/Feu.h modeles/Foudre.cpp modeles/Foudre.h modeles/Glace.cpp modeles/Glace.h)
 
 target_link_libraries(rpg PRIVATE sfml-audio sfml-graphics sfml-network sfml-system)

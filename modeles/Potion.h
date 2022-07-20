@@ -11,7 +11,7 @@ using namespace std;
 
 class Potion : public Outil {
 
-private:
+protected:
     int point;
 
 public:
