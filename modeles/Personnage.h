@@ -10,26 +10,15 @@
 #include <string>
 #include "Creature.h"
 #include "Sac.h"
+#include "Outil.h"
 
 using namespace std;
 
 class Personnage : public Creature {
-private:
-    Clock m_time_anim;
-    Clock m_time_moving;
-    Clock m_time_direction;
-    int m_take_direction = speed;
-    bool m_moving = true;
-
-    int getDir(sf::Vector2f pos, sf::Vector2f cible);
-
-    void moving(TileMap &map);
-
-    void moving_cible(TileMap &map);
-
 protected:
     int niveauHabilite;
     Sac *sac;
+    Outil *outil;
 
 public:
     Personnage();
@@ -45,19 +34,41 @@ public:
     void setSac(Sac *sac);
 
     Sac *getSac();
+    Outil * getOutil();
+    void setOutil(int index);
+    void setOutil(Outil * outil);
+
+    void attack(Creature * creature);
+
+    bool load(int index);
+    void updateInfo();
 
     ~Personnage();
 
     Personnage &operator=(const Personnage &personnage);
 
     virtual void print();
-
     virtual string toJson();
+    virtual void move(Event& event, TileMap& map);
+    virtual void move(TileMap& map);
 
-    virtual void move(Event &event, TileMap &map);
+    Sprite sprite_face;
+    Text text_vie;
+    Text text_habilite;
+    Text text_arme;
 
-    virtual void move(TileMap &map);
+protected:
+    Texture m_texture_face;
+    Font font;
+    Clock m_time_anim;
+    Clock m_time_moving;
+    Clock m_time_direction;
+    int m_take_direction = speed;
+    bool m_moving = true;
 
+    int getDir(sf::Vector2f pos, sf::Vector2f cible);
+    void moving(TileMap& map);
+    void moving_cible(TileMap& map);
 };
 
 

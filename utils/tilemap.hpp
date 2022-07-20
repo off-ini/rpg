@@ -70,6 +70,7 @@ public:
 
         return true;
     }
+    
     bool isTileWall(const sf::Vector2f& posChar,const int& dir, const int& width, const int& height, const int& speed)
     {
         int middle_x = width / 2;

@@ -4,15 +4,18 @@
 #include "../utils/consts.hpp"
 #include "../utils/distribution.h"
 #include "Personnage.h"
+#include "Arme.h"
 
 Personnage::Personnage() : Creature() {
     this->niveauHabilite = 0;
     this->sac = new Sac();//Le sac ne contient pas d'outil
+    outil = NULL;
 }
 
 Personnage::Personnage(string nom, int niveauSante, int niveauHabilite) : Creature(nom, niveauSante) {
     this->niveauHabilite = niveauHabilite;
     this->sac = new Sac();
+    outil = NULL;
 }
 
 Personnage::Personnage(const Personnage &personnage) {
@@ -49,6 +52,24 @@ Sac *Personnage::getSac() {
     return this->sac;
 }
 
+Outil * Personnage::getOutil(){
+    return this->outil;
+}
+
+void Personnage::setOutil(int index){
+    if(index >= 0 && this->sac->getOutils().size() > index)
+        this->outil = this->sac->getOutils()[index];
+}
+
+void Personnage::setOutil(Outil * outil){
+    this->outil = outil;
+}
+
+void Personnage::attack(Creature * creature){
+    if(outil != NULL)
+        creature->setNiveauSante( creature->getNiveauSante() - (this->outil->getPoint() * getNiveauHabilite()) / 5);
+}
+
 Personnage::~Personnage() {
     if (this->sac) {
         delete this->sac;
@@ -70,6 +91,40 @@ Personnage &Personnage::operator=(const Personnage &personnage) {
     this->sac = personnage.sac;//redéfinition de l'opérateur d'affectation dans sac
 
     return *this;
+}
+
+bool Personnage::load(int index){
+    if(Creature::loadTexture("./assets/sprites/actors/a"+ to_string(index) +".png")){
+        if(!m_texture_face.loadFromFile("./assets/sprites/actors/a_"+ to_string(index) +".png")){
+            perror("Texture load error");
+            return false;
+        }
+        m_texture_face.setSmooth(true);
+
+        sprite_face.setTexture(m_texture_face);
+
+        if(!font.loadFromFile("./assets/fonts/teko/Teko-Regular.ttf")){
+            perror("'fonTeko' load error");
+            return false;
+        }
+
+        text_vie.setFont(font);
+        text_habilite.setFont(font);
+        text_arme.setFont(font);
+
+        text_vie.setFillColor(Color::White);
+        text_habilite.setFillColor(Color::White);
+        text_arme.setFillColor(Color::White);
+    } else return false;
+
+    return true;
+}
+
+void Personnage::updateInfo(){
+    text_vie.setString(L"Vie :   " + to_string(niveauSante));
+    text_habilite.setString(L"Habilité :   " + to_string(niveauHabilite));
+    if(outil != NULL)
+        text_arme.setString(L"Arme :  " + outil->getLibelle() + " # " + to_string(outil->getPoint()));
 }
 
 void Personnage::print() {

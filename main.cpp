@@ -4,20 +4,21 @@
 #include <SFML/Graphics.hpp>
 
 #include "windows/Menu.h"
+#include "windows/ChoixPerso.h"
 #include "windows/Scene.h"
 #include "utils/consts.hpp"
-#include "utils/tilemap.hpp"
-#include "modeles/Personnage.h"
-#include "data/Parser.h"
+//#include "data/Parser.h"
 
 using namespace sf;
 
 int main() {
     RenderWindow window(VideoMode(SCREEN_W, SCREEN_H), "RPG");
     Scene scene;
+    int perso;
 
-    if (Menu::menu(window) == 1) {
-        scene.scene1(window);
+    if(Menu::menu(window) == 1){
+        perso = ChoixPerso::choix(window);
+        scene.scene1(window, perso);
     }
 
     //Parser::test();

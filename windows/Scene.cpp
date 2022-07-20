@@ -11,10 +11,24 @@
 #include "../modeles/Creature.h"
 #include "../modeles/Personnage.h"
 #include "../modeles/Batiment.h"
+#include "../modeles/Bouclier.h"
+#include "../modeles/Epee.h"
+#include "../modeles/Hache.h"
+#include "../modeles/Massue.h"
 #include "../modeles/Piece.h"
 #include "Scene.h"
 
 using namespace sf;
+
+int getIndex(vector<Creature*> list, Creature* perso){
+    std::vector<Creature*>::iterator itr = std::find(list.begin(), list.end(), perso);
+
+    if (itr != list.cend()) {
+        return std::distance(list.begin(), itr);
+    }
+
+    return -1;
+}
 
 Scene::Scene():batiment(){}
 
@@ -73,7 +87,7 @@ sf::Vector2f Scene::randomPosition(){
     return pos;
 }
 
-int Scene::scene1(sf::RenderWindow& window){
+int Scene::scene1(sf::RenderWindow& window, int choix){
 
     Music music;
     View mapView;
@@ -120,8 +134,15 @@ int Scene::scene1(sf::RenderWindow& window){
     sprArme.setPosition(20, 15);
 
     Personnage perso;
-    perso.loadTexture("./assets/sprites/actors/actor1.png");
+    perso.load(choix);
     perso.sprite.setPosition(150, 775);
+    perso.setNiveauHabilite(5);
+    perso.setNiveauSante(100);
+    perso.getSac()->addOutil(new Bouclier);
+    perso.getSac()->addOutil(new Epee);
+    perso.getSac()->addOutil(new Hache);
+    perso.getSac()->addOutil(new Massue);
+
 
     sf::CircleShape PersoPosition(60.f);
     PersoPosition.setFillColor(sf::Color::Red);
@@ -132,10 +153,14 @@ int Scene::scene1(sf::RenderWindow& window){
     for(int i = 0; i < PERSO_NOMBRE; i++){
         second = new Personnage();;
         int number = Gen::distNumber(2, 8);
-        second->loadTexture("./assets/sprites/actors/actor"+ to_string(number) +".png");
+        second->load(number);
         Vector2f position = randomPosition();
         //std::cout<< "PERSO :" << i + 1 << " X: " << position.x << " - Y: " << position.y << " TEXT : " << number <<std::endl;
         second->sprite.setPosition(position);
+        second->setNiveauHabilite(3);
+        second->setNiveauSante(50);
+        second->getSac()->addOutil(new Bouclier);
+        second->getSac()->addOutil(new Epee);
         p_list.push_back(second);
     }
 
@@ -159,6 +184,11 @@ int Scene::scene1(sf::RenderWindow& window){
             if (Mouse::isButtonPressed(Mouse::Left))
             {
                 std::cout<< "X: " << MousePos.x << " - Y: " << MousePos.y <<std::endl;
+            }
+
+            if(Keyboard::isKeyPressed(Keyboard::Space) && perso.getCible() != NULL){
+                int index = getIndex(p_list, perso.getCible());
+                Battle::battle(window, perso, (Personnage*)perso.getCible(), index);
             }
 
             perso.setCible(p_list);
