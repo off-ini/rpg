@@ -33,7 +33,7 @@ void Sac::addOutil(Outil *outil) {
 }
 
 vector<Outil *> Sac::getOutils() {
-    return this->getOutils();
+    return this->outils;
 }
 
 void Sac::setOutils(vector<Outil *> outils) {

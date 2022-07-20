@@ -10,7 +10,7 @@
 using namespace std;
 
 class Arme : public Outil {
-private:
+protected:
     int point;
     int niveau;
 
@@ -19,13 +19,21 @@ public:
 
     Arme(string libelle, int point, int niveau);
 
-    int getPoint();
+    virtual  int getPoint();
 
-    void setPoint(int point);
+    virtual void setPoint(int point);
 
-    int getNiveau();
+    virtual int getNiveau();
 
-    void setNiveau(int niveau);
+    virtual void setNiveau(int niveau);
+
+    /*virtual int getPortee() { return 0;};
+
+    virtual void setPortee(int portee) {};
+
+    virtual int getPuissance() {return 0;};
+
+    virtual void setPuissance(int puissance) {};*/
 
     void print();
 

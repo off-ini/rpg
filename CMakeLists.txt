@@ -22,6 +22,14 @@ add_executable(rpg
         modeles/GameObject.h
         modeles/Outil.cpp
         modeles/Outil.h
+        modeles/Bouclier.h
+        modeles/Bouclier.cpp
+        modeles/Epee.h
+        modeles/Epee.cpp
+        modeles/Hache.h
+        modeles/Hache.cpp
+        modeles/Massue.h
+        modeles/Massue.cpp
         modeles/Ouvrier.cpp
         modeles/Ouvrier.h
         modeles/Personnage.cpp
@@ -43,6 +51,10 @@ add_executable(rpg
         utils/tilemap.hpp
         windows/Menu.h
         windows/Menu.cpp
+        windows/ChoixPerso.h
+        windows/ChoixPerso.cpp
+        windows/Battle.h
+        windows/Battle.cpp
         windows/Scene.h
         windows/Scene.cpp
         main.cpp
