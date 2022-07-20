@@ -46,6 +46,16 @@ add_executable(rpg
         modeles/Sac.h
         modeles/Soldat.cpp
         modeles/Soldat.h
+        modeles/CleTeleportation.cpp
+        modeles/CleTeleportation.h
+        modeles/PotionRegeneration.cpp
+        modeles/PotionRegeneration.h
+        modeles/Feu.cpp
+        modeles/Feu.h
+        modeles/Foudre.cpp
+        modeles/Foudre.h
+        modeles/Glace.cpp
+        modeles/Glace.h
         utils/consts.hpp
         utils/distribution.h
         utils/tilemap.hpp
@@ -58,6 +68,6 @@ add_executable(rpg
         windows/Scene.h
         windows/Scene.cpp
         main.cpp
-        data/Parser.h modeles/CleTeleporation.cpp modeles/CleTeleporation.h modeles/PotionRegeneration.cpp modeles/PotionRegeneration.h modeles/Feu.cpp modeles/Feu.h modeles/Foudre.cpp modeles/Foudre.h modeles/Glace.cpp modeles/Glace.h)
+        data/Parser.h)
 
 target_link_libraries(rpg PRIVATE sfml-audio sfml-graphics sfml-network sfml-system)
