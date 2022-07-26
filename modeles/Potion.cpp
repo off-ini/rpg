@@ -19,5 +19,13 @@ void Potion::setPoint(int point) {
 void Potion::print() {
     string ecran;
     ecran = "\t\tPotion[libelle: " + this->libelle + ", point: " + to_string(this->point) + "]";
-    cout << endl << ecran << endl;
+    cout << endl << ecran;
+}
+
+string Potion::toJson() {
+    string type = &(typeid(*this).name()[1]);
+    string json;
+    json = "{\"type\": \"" + type + "\", \"libelle\": \"" + this->libelle + "\", \"point\": " + to_string(this->point) +
+           "}";
+    return json;
 }

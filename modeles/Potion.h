@@ -11,7 +11,7 @@ using namespace std;
 
 class Potion : public Outil {
 
-private:
+protected:
     int point;
 
 public:
@@ -24,6 +24,8 @@ public:
     virtual void setPoint(int point);
 
     void print();
+
+    string toJson();
 
 };
 

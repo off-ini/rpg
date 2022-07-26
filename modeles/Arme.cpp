@@ -29,5 +29,14 @@ void Arme::print() {
     string ecran;
     ecran = "\t\tArme[libelle: " + this->libelle + ", point: " + to_string(this->point) + ", niveau: " +
             to_string(this->niveau) + "]";
-    cout << endl << ecran << endl;
+    cout << endl << ecran;
+}
+
+string Arme::toJson() {
+    string type = &(typeid(*this).name()[1]);
+    string json;
+    json = "{\"type\": \"" + type + "\", \"libelle\": \"" + this->libelle + "\", \"point\": " + to_string(this->point) +
+           ", ";
+    json += "\"niveau\": " + to_string(this->niveau) + "}";
+    return json;
 }

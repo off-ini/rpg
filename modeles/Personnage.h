@@ -49,6 +49,7 @@ public:
     Personnage &operator=(const Personnage &personnage);
 
     virtual void print();
+    virtual string toJson();
     virtual void move(Event& event, TileMap& map);
     virtual void move(TileMap& map);
 

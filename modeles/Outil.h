@@ -52,6 +52,8 @@ public:
 
     virtual void print();
 
+    virtual string toJson();
+
     RectangleShape rectangle;
     Sprite spriteMini;
 };

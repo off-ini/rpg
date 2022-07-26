@@ -12,7 +12,7 @@ using namespace std;
 
 class Amulette : public Outil {
 
-private:
+protected:
     int portee;
     int puissance;
 
@@ -30,6 +30,8 @@ public:
     virtual void setPuissance(int puissance);
 
     void print();
+
+    string toJson();
 
 };
 

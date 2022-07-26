@@ -7,10 +7,11 @@
 #include "windows/ChoixPerso.h"
 #include "windows/Scene.h"
 #include "utils/consts.hpp"
+//#include "data/Parser.h"
 
 using namespace sf;
 
-int main(){
+int main() {
     RenderWindow window(VideoMode(SCREEN_W, SCREEN_H), "RPG");
     Scene scene;
     int perso;
@@ -19,6 +20,8 @@ int main(){
         perso = ChoixPerso::choix(window);
         scene.scene1(window, perso);
     }
+
+    //Parser::test();
 
     return 0;
 }

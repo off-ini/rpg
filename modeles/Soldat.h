@@ -16,6 +16,8 @@ public:
     Soldat(string nom, int niveauSante, int niveauHabilite);
 
     void print(void);
+
+    string toJson();
 };
 
 
