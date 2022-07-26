@@ -27,13 +27,13 @@ public:
 
     virtual void setNiveau(int niveau);
 
-    /*virtual int getPortee() { return 0;};
+    virtual int getPortee() { return 0;};
 
     virtual void setPortee(int portee) {};
 
     virtual int getPuissance() {return 0;};
 
-    virtual void setPuissance(int puissance) {};*/
+    virtual void setPuissance(int puissance) {};
 
     void print();
 

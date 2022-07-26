@@ -9,19 +9,19 @@ Amulette::Amulette() : Outil(), portee(0), puissance(0) {}
 Amulette::Amulette(string libelle, int portee, int puissance) : Outil(libelle), portee(portee),
                                                                 puissance(puissance) {}
 
-int Amulette::getPortee() {
+int Amulette::getNiveau() {
     return this->portee;
 }
 
-int Amulette::getPuissance() {
+int Amulette::getPoint() {
     return this->puissance;
 }
 
-void Amulette::setPortee(int portee) {
+void Amulette::setNiveau(int portee) {
     this->portee = portee;
 }
 
-void Amulette::setPuissance(int puissance) {
+void Amulette::setPoint(int puissance) {
     this->puissance = puissance;
 }
 

@@ -23,6 +23,10 @@ public:
 
     virtual void setPoint(int point);
 
+    virtual int getNiveau(){return 0;};
+
+    virtual void setNiveau(int niveau){};
+
     void print();
 
     string toJson();

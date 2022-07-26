@@ -42,14 +42,6 @@ public:
 
     virtual void setNiveau(int niveau) = 0;
 
-    /*virtual int getPortee() = 0;
-
-    virtual void setPortee(int portee) = 0;
-
-    virtual int getPuissance() = 0;
-
-    virtual void setPuissance(int puissance) = 0;*/
-
     virtual void print();
 
     virtual string toJson();

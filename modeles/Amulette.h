@@ -21,13 +21,13 @@ public:
 
     Amulette(string libelle, int portee, int puissance);
 
-    virtual int getPortee();
+    virtual int getNiveau();
 
-    virtual void setPortee(int portee);
+    virtual void setNiveau(int portee);
 
-    virtual int getPuissance();
+    virtual int getPoint();
 
-    virtual void setPuissance(int puissance);
+    virtual void setPoint(int puissance);
 
     void print();
 
