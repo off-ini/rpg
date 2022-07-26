@@ -103,11 +103,16 @@ int Battle::battle(RenderWindow& window, Personnage& principale, Personnage* sec
                     }
                 }
 
-                if(Keyboard::isKeyPressed(Keyboard::A) && main == 1){
+                if((Keyboard::isKeyPressed(Keyboard::A) || Mouse::isButtonPressed(Mouse::Right) )&& main == 1){
                     principale.attack(secondaire);
                     main = 0;
                 }
             }
+        }
+
+        if(main == 0){
+            secondaire->attack_i(&principale);
+            main = 1;
         }
 
         if(main == 0){

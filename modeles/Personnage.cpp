@@ -65,9 +65,25 @@ void Personnage::setOutil(Outil * outil){
     this->outil = outil;
 }
 
-void Personnage::attack(Creature * creature){
-    if(outil != NULL)
-        creature->setNiveauSante( creature->getNiveauSante() - (this->outil->getPoint() * getNiveauHabilite()) / 5);
+void Personnage::attack_i(Personnage * creature){
+    if(m_time_attack.getElapsedTime().asSeconds() >= 5){
+        setOutil(Gen::distNumber(0, sac->getOutils().size() - 1));
+
+        attack(creature);
+
+        m_time_attack.restart();
+    }
+}
+
+void Personnage::attack(Personnage * creature){
+    int poid = 5;
+    if(outil != NULL && outil->getLibelle() != "Bouclier"){
+        if(creature->getOutil() != NULL && creature->getOutil()->getLibelle() == "Bouclier"){
+            poid = 10;
+        }
+        creature->setNiveauSante( creature->getNiveauSante() - (this->outil->getPoint() * getNiveauHabilite()) / poid);
+    }
+
 }
 
 Personnage::~Personnage() {

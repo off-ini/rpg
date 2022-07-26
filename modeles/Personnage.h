@@ -38,7 +38,8 @@ public:
     void setOutil(int index);
     void setOutil(Outil * outil);
 
-    void attack(Creature * creature);
+    void attack_i(Personnage * creature);
+    void attack(Personnage * creature);
 
     bool load(int index);
     void updateInfo();
@@ -62,6 +63,7 @@ protected:
     Clock m_time_anim;
     Clock m_time_moving;
     Clock m_time_direction;
+    Clock m_time_attack;
     int m_take_direction = speed;
     bool m_moving = true;
 
