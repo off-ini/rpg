@@ -30,6 +30,7 @@ void Creature::setNom(string nom) {
 }
 
 int Creature::getNiveauSante() {
+    if(this->niveauSante <= 0) this->niveauSante = 0;
     return this->niveauSante;
 }
 

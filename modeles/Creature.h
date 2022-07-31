@@ -35,9 +35,8 @@ protected:
     Vector2i anim;
     bool updateAnim = true;
 
-    Texture texture;
-
 public:
+    Texture texture;
     Sprite sprite;
     Creature();
 
@@ -69,7 +68,7 @@ public:
     virtual void print();
     virtual void move(Event& event, TileMap& map) = 0;
     virtual void move(TileMap& map) = 0;
-
+    virtual string toJson() = 0;
 };
 
 

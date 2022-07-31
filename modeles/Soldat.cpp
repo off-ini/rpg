@@ -3,8 +3,20 @@
 //
 
 #include "Soldat.h"
+#include "../utils/distribution.h"
+#include "Bouclier.h"
+#include "Epee.h"
+#include "Hache.h"
+#include "PotionRegeneration.h"
 
-Soldat::Soldat() : Personnage() {}
+Soldat::Soldat(): Personnage("Solda", Gen::distNumber(50, 90), Gen::distNumber(2, 5)) {
+    int number = Gen::distNumber(1, 2);
+    load(number);
+    getSac()->addOutil(new Bouclier);
+    getSac()->addOutil(new Epee);
+    getSac()->addOutil(new Hache);
+    getSac()->addOutil(new PotionRegeneration(15));
+}
 
 Soldat::Soldat(string nom, int niveauSante, int niveauHabilite) : Personnage(nom, niveauSante, niveauHabilite) {}
 

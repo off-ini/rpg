@@ -15,8 +15,19 @@
 #include "../modeles/Epee.h"
 #include "../modeles/Hache.h"
 #include "../modeles/Massue.h"
+#include "../modeles/Feu.h"
+#include "../modeles/Glace.h"
+#include "../modeles/Foudre.h"
+#include "../modeles/CleTeleportation.h"
+#include "../modeles/PotionRegeneration.h"
 #include "../modeles/Piece.h"
 #include "Scene.h"
+#include "../modeles/Soldat.h"
+#include "../modeles/Druide.h"
+#include "../modeles/Ouvrier.h"
+#include "../modeles/Religieux.h"
+
+#include "../data/Parser.h"
 
 using namespace sf;
 
@@ -87,8 +98,15 @@ sf::Vector2f Scene::randomPosition(){
     return pos;
 }
 
+Vector2f updateProgress(Vector2f& rect , Personnage & perso){
+    Vector2f tmp = rect;
+    tmp.x = (tmp.x * perso.getNiveauSante()) / 100.f;
+    return tmp;
+}
+
 int Scene::scene1(sf::RenderWindow& window, int choix){
 
+    Clock timer;
     Music music;
     View mapView;
     View progressView;
@@ -97,8 +115,24 @@ int Scene::scene1(sf::RenderWindow& window, int choix){
     Sprite sprProgress;
     RectangleShape progress;
 
-    Texture texArme;
-    Sprite sprArme;
+    Font font;
+    if(!font.loadFromFile("./assets/fonts/console/Inconsolata-Bold.ttf")){
+        perror("'Inconsolata' load error");
+    }
+
+    Text text;
+    text.setFont(font);
+    text.setFillColor(Color::Yellow);
+    text.setCharacterSize(25);
+    text.setPosition(480, 10);
+
+    bool displaySave = false;
+    Text textSave;
+    textSave.setFont(font);
+    textSave.setString("Sauvegarge Reuissie !!!");
+    textSave.setFillColor(Color::Red);
+    textSave.setCharacterSize(25);
+    textSave.setPosition(160, 220);
 
     if(!music.openFromFile("./assets/audio/Town.ogg")){
         perror("'Town.ogg' load error");
@@ -121,48 +155,80 @@ int Scene::scene1(sf::RenderWindow& window, int choix){
 
     progress.setPosition(55, 18);
     progress.setFillColor(Color::Red);
-    progress.setSize(Vector2f(115, 25));
+    Vector2f rect(115, 25);
+    progress.setSize(rect);
 
-    if(!texArme.loadFromFile("./assets/sprites/armes.png")){
-        perror("'Armes' load error");
-        return -1;
-    }
-
-    sprArme.setTexture(texArme);
-    sprArme.setTextureRect(IntRect(48, 20, 40, 30));
-    sprArme.setScale(0.8f, 0.8f);
-    sprArme.setPosition(20, 15);
+    std::vector<Creature *> liste_load;
 
     Personnage perso;
-    perso.load(choix);
-    perso.sprite.setPosition(150, 775);
+
+    if(choix != 200){
+        perso.load(choix);
+        perso.sprite.setPosition(150, 775);
+        perso.setNiveauSante(100);
+    }else{
+        Creature * tmpPerso = liste_load[liste_load.size() - 1];
+        perso.sprite = tmpPerso->sprite;
+        perso.setNiveauSante(tmpPerso->getNiveauSante());
+    }
+
     perso.setNiveauHabilite(5);
-    perso.setNiveauSante(100);
     perso.getSac()->addOutil(new Bouclier);
     perso.getSac()->addOutil(new Epee);
     perso.getSac()->addOutil(new Hache);
     perso.getSac()->addOutil(new Massue);
+    perso.getSac()->addOutil(new Glace);
+    perso.getSac()->addOutil(new Feu);
+    perso.getSac()->addOutil(new Foudre);
+    perso.getSac()->addOutil(new PotionRegeneration);
+    perso.getSac()->addOutil(new CleTeleportation);
+
 
 
     sf::CircleShape PersoPosition(60.f);
     PersoPosition.setFillColor(sf::Color::Red);
 
+    std::vector<CircleShape> CreaturesPosition;
     std::vector<Creature *> p_list;
     Personnage * second = NULL;
+    int persoType = 0;
 
-    for(int i = 0; i < PERSO_NOMBRE; i++){
-        second = new Personnage();;
-        int number = Gen::distNumber(2, 8);
-        second->load(number);
-        Vector2f position = randomPosition();
-        //std::cout<< "PERSO :" << i + 1 << " X: " << position.x << " - Y: " << position.y << " TEXT : " << number <<std::endl;
-        second->sprite.setPosition(position);
-        second->setNiveauHabilite(3);
-        second->setNiveauSante(50);
-        second->getSac()->addOutil(new Bouclier);
-        second->getSac()->addOutil(new Epee);
-        p_list.push_back(second);
+    if(choix != 200){
+        for(int i = 0; i < PERSO_NOMBRE; i++){
+            CircleShape circle(50);
+            circle.setFillColor(Color::Blue);
+            persoType = Gen::distNumber(1, 4);
+            switch (persoType) {
+                case 1:
+                    second = new Soldat();
+                    break;
+                case 2:
+                    second = new Druide();
+                    break;
+                case 3:
+                    second = new Ouvrier();
+                    break;
+                case 4:
+                    second = new Religieux();
+                    break;
+            }
+
+            /*int number = Gen::distNumber(2, 8);
+            second->load(number);*/
+            Vector2f position = randomPosition();
+            //std::cout<< "PERSO :" << i + 1 << " X: " << position.x << " - Y: " << position.y << " TEXT : " << number <<std::endl;
+            second->sprite.setPosition(position);
+
+            p_list.push_back(second);
+
+            circle.setPosition(position);
+            CreaturesPosition.push_back(circle);
+        }
+    }else{
+        liste_load.pop_back();
+        p_list = liste_load;
     }
+
 
     TileMap map("./assets/sprites/map/map2.png", level);
     if (!map.load())
@@ -176,9 +242,32 @@ int Scene::scene1(sf::RenderWindow& window, int choix){
                 case Event::Closed:
                     window.close();
                     break;
+                case sf::Event::TextEntered:
+                    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+                        //std::cout<< "Ctrl S" <<endl;
+                        std::vector<Creature *> liste_save;
+                        for(int i = 0; i < p_list.size(); i++){
+                            liste_save.push_back(p_list[i]);
+                        }
+                        liste_save.push_back(&perso);
+
+                        Parser::save(liste_save);
+                        displaySave = true;
+
+                        std::cout<< "Saved !!!" <<endl;
+                    }
+
+                    break;
                 default:
                     break;
             }
+
+            if(timer.getElapsedTime().asSeconds() >= 5){
+                displaySave = false;
+                timer.restart();
+            }
+
+            progress.setSize(updateProgress(rect, perso));
 
             Vector2f MousePos = window.mapPixelToCoords(Mouse::getPosition(window));
             if (Mouse::isButtonPressed(Mouse::Left))
@@ -188,7 +277,29 @@ int Scene::scene1(sf::RenderWindow& window, int choix){
 
             if(Keyboard::isKeyPressed(Keyboard::Space) && perso.getCible() != NULL){
                 int index = getIndex(p_list, perso.getCible());
-                Battle::battle(window, perso, (Personnage*)perso.getCible(), index);
+                int issue = Battle::battle(window, perso, (Personnage*)perso.getCible(), index);
+                Creature * creature = p_list[index];
+                CircleShape creaturePos = CreaturesPosition[index];
+
+                switch (issue) {
+                    case 1:
+                        //std::remove(p_list.begin(), p_list.end(), creature);
+                        //std::remove(CreaturesPosition.begin(), CreaturesPosition.end(), creaturePos);
+                        return 0;
+                        break;
+                    case 2:
+                        std::remove(p_list.begin(), p_list.end(), creature);
+                        //std::remove(CreaturesPosition.begin(), CreaturesPosition.end(), creaturePos);
+                        break;
+                    case 100:
+                        perso.sprite.setPosition(randomPosition());
+                        break;
+                    default:
+                        break;
+                }
+
+                std::cout<< "Enémi : " << p_list.size() <<endl;
+                text.setString(L"Enémi:" + to_string(p_list.size()));
             }
 
             perso.setCible(p_list);
@@ -200,6 +311,7 @@ int Scene::scene1(sf::RenderWindow& window, int choix){
         for (int i = 0; i < p_list.size(); ++i) {
             p_list[i]->setCible(perso);
             p_list[i]->move(map);
+            CreaturesPosition[i].setPosition(p_list[i]->sprite.getPosition());
         }
 
         setView(&perso);
@@ -222,12 +334,25 @@ int Scene::scene1(sf::RenderWindow& window, int choix){
         window.draw(map);
         window.draw(PersoPosition);
 
+        for (int i = 0; i < CreaturesPosition.size(); ++i) {
+            window.draw(CreaturesPosition[i]);
+        }
+
         progressView.reset(FloatRect(0,0, SCREEN_W, SCREEN_H));
         window.setView(progressView);
 
         window.draw(progress);
         window.draw(sprProgress);
-        window.draw(sprArme);
+        window.draw(text);
+        if(displaySave)
+            window.draw(textSave);
+
+        if(perso.getOutil() != NULL){
+            perso.getOutil()->spriteMini.setScale(0.8, 0.8);
+            perso.getOutil()->spriteMini.setPosition(21, 18);
+            window.draw(perso.getOutil()->spriteMini);
+            perso.getOutil()->spriteMini.setScale(1, 1);
+        }
 
         window.display();
     }

@@ -14,7 +14,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-#define PERSO_NOMBRE 30
+#define PERSO_NOMBRE 20
 
 const int level[] =
         {

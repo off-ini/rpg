@@ -5,7 +5,7 @@
 #include "CleTeleportation.h"
 
 CleTeleportation::CleTeleportation() {
-    this->libelle = "Cle de téléportation";
+    this->libelle = "Cle";
     this->portee = 100;
     this->puissance = 25;
     load(0, 1);

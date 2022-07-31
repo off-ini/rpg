@@ -9,10 +9,19 @@
 using namespace std;
 using namespace sf;
 
+std::string getType(int i){
+    if(i <= 2) return "Soldat";
+    else if(i <= 4) return "Druide";
+    else if(i <= 6) return "Ouvrier";
+    else if(i <= 8) return "Religieux";
+}
+
 void PersoSelect::load(int i){
     if(!textureFace.loadFromFile("./assets/sprites/actors/a_"+ to_string(i) +".png")){
         perror("Load erreur");
     }
+
+    type = getType(i);
     textureFace.setSmooth(true);
     spriteFace.setTexture(textureFace);
     spriteFace.setScale(Vector2f(0.7f, 0.8f));
@@ -123,6 +132,9 @@ int ChoixPerso::choix(RenderWindow& window){
                 }
             }
         }
+
+        txtType.setString(list[index]->type);
+
         window.clear(Color::Black);
         window.draw(spriteBack);
         window.draw(txtTitle);

@@ -96,10 +96,10 @@ int Menu::menu(RenderWindow& window){
     txtPlay.setPosition((SCREEN_W/2) - 8, (SCREEN_H / 3) + 60);
 
     txtSetting.setFont(fonSkranji);
-    txtSetting.setString(L"Paramètres");
-    txtSetting.setCharacterSize(24);
+    txtSetting.setString(L"Load Niveau");
+    txtSetting.setCharacterSize(20);
     txtSetting.setFillColor(Color::White);
-    txtSetting.setPosition((SCREEN_W/2) - 35, (SCREEN_H / 3) + 108);
+    txtSetting.setPosition((SCREEN_W/2) - 85, (SCREEN_H / 3) + 120);
 
     txtExit.setFont(fonSkranji);
     txtExit.setString(L"Quitter");
@@ -147,6 +147,7 @@ int Menu::menu(RenderWindow& window){
                 {
                     soundUp.play();
                     std::cout<< "Clique : Setting" <<std::endl;
+                    return 2;
                 }
             }
             else{
@@ -164,7 +165,7 @@ int Menu::menu(RenderWindow& window){
                     soundUp.play();
                     std::cout<< "Clique : Exit" <<std::endl;
                     window.close();
-                    return 0;
+                    //return 0;
                 }
             }
             else{

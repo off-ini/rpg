@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 
 #include "Battle.h"
@@ -11,6 +12,25 @@
 
 using namespace std;
 using namespace sf;
+
+vector<string> SplitString(const string& s, const string& format){
+    vector<string> v;
+    string temp = "";
+    for(int i=0;i<s.length();++i){
+
+        if(s[i]==format){
+            v.push_back(temp);
+            temp = "";
+        }
+        else{
+            temp.push_back(s[i]);
+        }
+
+    }
+    v.push_back(temp);
+
+    return  v;
+}
 
 int Battle::battle(RenderWindow& window, Personnage& principale, Personnage* secondaire, int index){
     cout<< "Index == >  " << index <<endl;
@@ -22,22 +42,41 @@ int Battle::battle(RenderWindow& window, Personnage& principale, Personnage* sec
     RectangleShape tourIndic(Vector2f(136 , 179));
     tourIndic.setFillColor(Color::Red);
 
-    RectangleShape rectangle(sf::Vector2f(210.f, 100.f));
+    RectangleShape rectangle(sf::Vector2f(210.f, 150.f));
     rectangle.setFillColor(Color::Black);
     rectangle.setOutlineThickness(1);
     rectangle.setOutlineColor(Color::White);
     rectangle.setPosition(380, 15);
 
+    Texture background;
+    Sprite spriteBackgroud;
+
+    if(!background.loadFromFile("./assets/sprites/bgBattle.png")){
+        perror("'bgBattle' load error");
+    }
+
+    spriteBackgroud.setTexture(background);
+
     Font font;
     if(!font.loadFromFile("./assets/fonts/console/Inconsolata-Regular.ttf")){
         perror("'Inconsolata' load error");
     }
+
+    string enTete = "\t\t===  Log  ===";
+    string corps = "";
+
     Text text;
     text.setFont(font);
     text.setFillColor(Color::White);
     text.setCharacterSize(12);
-    text.setString(L"\t\t===  Log  ===\n> Enémie -> Coup d'épée 50");
+    text.setString(enTete);
     text.setPosition(384, 18);
+
+    Text textStatus;
+    textStatus.setFont(font);
+    textStatus.setFillColor(Color::White);
+    textStatus.setCharacterSize(38);
+    textStatus.setPosition(35, SCREEN_H/2 - 35);
 
     secondaire->sprite_face.setPosition(15, 15);
     secondaire->sprite_face.setScale(0.4, 0.5);
@@ -68,14 +107,21 @@ int Battle::battle(RenderWindow& window, Personnage& principale, Personnage* sec
     principale.text_arme.setCharacterSize(20);
     principale.text_arme.setPosition(300, 340);
 
-    for(int i = 0; i < principale.getSac()->getOutils().size(); i++){
-        principale.getSac()
-            ->getOutils()[i]
-            ->setPosition(20 + (i * 36), 240);
+    int t = (principale.getSac()->getOutils().size() / 5) + 1;
+    cout<< " == > Taille  " << t <<endl;
+    for(int y = 0; y < t; y++){
+        for(int i = 0; i < 5; i++){
+            principale.getSac()
+                    ->getOutils()[i + (y * 5)]
+                    ->setPosition(20 + (i * 36), 240 + (y * 36));
+            if(principale.getSac()->getOutils().size() == i + (y * 5) + 1) break;
+        }
     }
+
     cout<< " == > 1" <<endl;
     while (window.isOpen()){
         Event event;
+        if(SplitString(corps, "\n").size() >= 11) corps = "";
         while (window.pollEvent(event)){
             switch (event.type) {
                 case Event::Closed:
@@ -102,18 +148,25 @@ int Battle::battle(RenderWindow& window, Personnage& principale, Personnage* sec
                         principale.setOutil(outilIndex);
                     }
                 }
+            }
 
-                if((Keyboard::isKeyPressed(Keyboard::A) || Mouse::isButtonPressed(Mouse::Right) )&& main == 1){
-                    principale.attack(secondaire);
-                    main = 0;
+            if((Keyboard::isKeyPressed(Keyboard::A) || Mouse::isButtonPressed(Mouse::Right) )&& main == 1 && issue == 0){
+                int status = principale.attack(secondaire);
+                if(status > -1){
+                    if(status == 0)
+                        main = 0;
+                    else if(status == 2) return 100;
+                    if(principale.getOutil() != NULL)
+                        corps += "\n + Vous -> " + principale.getOutil()->getLibelle() + " #" + to_string(principale.getOutil()->getPoint());
                 }
             }
         }
 
-        if(main == 0){
-            secondaire->attack_i(&principale);
-            main = 1;
+        if(main == 0 && issue == 0){
+            secondaire->attack_i(&principale, main, corps);
         }
+
+        text.setString(enTete+corps);
 
         if(main == 0){
             position.x = 13;
@@ -123,6 +176,18 @@ int Battle::battle(RenderWindow& window, Personnage& principale, Personnage* sec
             position.y = 208;
         }
 
+        if(principale.getNiveauSante() <= 0){
+            issue = 1;
+            textStatus.setFillColor(Color::Red);
+            textStatus.setString("=> Le Combat est Termine <=\n\t  Vous avez Perdu");
+        }
+
+        if(secondaire->getNiveauSante() <= 0){
+            issue = 2;
+            textStatus.setFillColor(Color::Green);
+            textStatus.setString("=> Le Combat est Termine <=\n\t  Vous avez Gagne");
+        }
+
         tourIndic.setPosition(position);
 
         principale.updateInfo();
@@ -130,6 +195,9 @@ int Battle::battle(RenderWindow& window, Personnage& principale, Personnage* sec
 
         window.clear(Color::Black);
 
+        window.draw(spriteBackgroud);
+
+        if(issue == 0)
         window.draw(tourIndic);
 
         window.draw(secondaire->sprite_face);
@@ -149,6 +217,14 @@ int Battle::battle(RenderWindow& window, Personnage& principale, Personnage* sec
             window.draw(principale.getSac()->getOutils()[i]->spriteMini);
         }
 
+        if(issue != 0){
+            window.draw(spriteBackgroud);
+            window.draw(textStatus);
+        }
+
+
         window.display();
     }
+
+    return 200;
 }

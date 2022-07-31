@@ -3,8 +3,20 @@
 //
 
 #include "Ouvrier.h"
+#include "../utils/distribution.h"
+#include "Bouclier.h"
+#include "Hache.h"
+#include "Massue.h"
+#include "PotionRegeneration.h"
 
-Ouvrier::Ouvrier() : Personnage() {}
+Ouvrier::Ouvrier(): Personnage("Ouvrier", Gen::distNumber(50, 90), Gen::distNumber(2, 5)) {
+    int number = Gen::distNumber(5, 6);
+    load(number);
+    getSac()->addOutil(new Bouclier);
+    getSac()->addOutil(new Hache);
+    getSac()->addOutil(new Massue);
+    getSac()->addOutil(new PotionRegeneration(15));
+}
 
 Ouvrier::Ouvrier(string nom, int niveauSante, int niveauHabilite) : Personnage(nom, niveauSante, niveauHabilite) {}
 

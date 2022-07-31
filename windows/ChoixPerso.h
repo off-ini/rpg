@@ -7,6 +7,7 @@
 
 #include "../utils/consts.hpp"
 
+#include <string>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -22,6 +23,8 @@ public:
 
     Sprite spriteMini;
     Sprite spriteFace;
+
+    std::string type;
 
     void load(int i);
     void setPosition(float x, float y);

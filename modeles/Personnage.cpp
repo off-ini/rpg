@@ -1,6 +1,7 @@
 //
 // Created by benjamin on 02/07/22.
 //
+#include <SFML/System.hpp>
 #include "../utils/consts.hpp"
 #include "../utils/distribution.h"
 #include "Personnage.h"
@@ -65,24 +66,62 @@ void Personnage::setOutil(Outil * outil){
     this->outil = outil;
 }
 
-void Personnage::attack_i(Personnage * creature){
-    if(m_time_attack.getElapsedTime().asSeconds() >= 5){
-        setOutil(Gen::distNumber(0, sac->getOutils().size() - 1));
+int Personnage::attack_i(Personnage * creature, int& main, string& corps){
 
-        attack(creature);
+        if(m_time_attack.getElapsedTime().asMilliseconds() >= 5000){
+            setOutil(Gen::distNumber(0, sac->getOutils().size() - 1));
+            sleep(milliseconds(100));
 
-        m_time_attack.restart();
-    }
+            int status = attack(creature);
+            if(status > -1){
+                if(status == 0){
+                    main = 1;
+                }
+                if(outil != NULL)
+                    corps += "\n - Enemie -> " + getOutil()->getLibelle() + " #" + to_string(getOutil()->getPoint());
+            }
+
+            m_time_attack.restart();
+        }
+
 }
 
-void Personnage::attack(Personnage * creature){
-    int poid = 5;
-    if(outil != NULL && outil->getLibelle() != "Bouclier"){
-        if(creature->getOutil() != NULL && creature->getOutil()->getLibelle() == "Bouclier"){
-            poid = 10;
+int Personnage::attack(Personnage * creature){
+    int poid = 7;
+
+    if(outil != NULL){
+        if(outil->getLibelle() == "Potion"){
+            int niveau = getNiveauSante();
+            int point = outil->getPoint();
+            if(point >= 5){
+                setNiveauSante(niveau + 5);
+                outil->setPoint(point - 5);
+            }
+            else if(point > 0 && point < 5){
+                setNiveauSante(niveau + point);
+                outil->setPoint(point - point);
+            }
+            return 1;
         }
-        creature->setNiveauSante( creature->getNiveauSante() - (this->outil->getPoint() * getNiveauHabilite()) / poid);
+
+        if(outil->getLibelle() == "Cle"){
+            int point = outil->getPoint();
+            if(point > 0) outil->setPoint(point - 5);
+            return 2;
+        }
+
+        if(outil->getLibelle() != "Bouclier"){
+            if(creature->getOutil() != NULL && creature->getOutil()->getLibelle() == "Bouclier"){
+                poid *= poid;
+            }
+            creature->setNiveauSante( creature->getNiveauSante() - (this->outil->getPoint() * getNiveauHabilite()) / poid);
+            return 0;
+        }
+
+        return 0;
     }
+
+    return -1;
 
 }
 

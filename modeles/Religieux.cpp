@@ -3,8 +3,20 @@
 //
 
 #include "Religieux.h"
+#include "../utils/distribution.h"
+#include "Bouclier.h"
+#include "Epee.h"
+#include "Foudre.h"
+#include "PotionRegeneration.h"
 
-Religieux::Religieux() : Personnage() {}
+Religieux::Religieux(): Personnage("Ouvrier", 90, 3) {
+    int number = Gen::distNumber(7, 8);
+    load(number);
+    getSac()->addOutil(new Bouclier);
+    getSac()->addOutil(new Epee);
+    getSac()->addOutil(new Foudre);
+    getSac()->addOutil(new PotionRegeneration(15));
+}
 
 Religieux::Religieux(string nom, int niveauSante, int niveauHabilite) : Personnage(nom, niveauSante, niveauHabilite) {}
 

@@ -14,12 +14,23 @@ using namespace sf;
 int main() {
     RenderWindow window(VideoMode(SCREEN_W, SCREEN_H), "RPG");
     Scene scene;
+    int status;
     int perso;
 
-    if(Menu::menu(window) == 1){
-        perso = ChoixPerso::choix(window);
-        scene.scene1(window, perso);
+    bool running = true;
+
+    while (running){
+        status = Menu::menu(window);
+        if(status == 1){
+            perso = ChoixPerso::choix(window);
+            scene.scene1(window, perso);
+        }else if(status == 2){
+            //scene.scene1(window, 200);
+        }else{
+            running = false;
+        }
     }
+
 
     //Parser::test();
 

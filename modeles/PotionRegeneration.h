@@ -9,8 +9,9 @@
 #include "Potion.h"
 
 class PotionRegeneration: public Potion {
-
+public:
     PotionRegeneration();
+    PotionRegeneration(int point);
 
     PotionRegeneration(string libelle, int point);
 };

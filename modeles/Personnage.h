@@ -38,8 +38,8 @@ public:
     void setOutil(int index);
     void setOutil(Outil * outil);
 
-    void attack_i(Personnage * creature);
-    void attack(Personnage * creature);
+    int attack_i(Personnage * creature, int& main, string& corps);
+    int attack(Personnage * creature);
 
     bool load(int index);
     void updateInfo();

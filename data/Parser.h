@@ -44,7 +44,7 @@ public:
         }*/
     }
 
-    static void save(vector<Personnage *> personnages) {
+    static void save(vector<Creature *> personnages) {
         string json = "{\"personnages\": [";
 
         //Ouverture du fichier en ecriture
@@ -66,10 +66,10 @@ public:
         }
     }
 
-    static vector<Personnage *> load() {
+    static vector<Creature *> load() {
         string ligne = "";
         string json = "";
-        vector<Personnage *> vectorPersonnages;
+        vector<Creature *> vectorPersonnages;
 
         //Ouverture du fichier en lecture et lecture du contenu
         ifstream fichier;
